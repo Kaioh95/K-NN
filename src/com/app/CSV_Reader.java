@@ -46,56 +46,50 @@ public class CSV_Reader {
         List<Float> imgFeatures;
 
         try {
-            FileWriter arq = new FileWriter(dest, true);
-            PrintWriter arqWrite = new PrintWriter(arq);
+            PrintWriter arqWriteM = new PrintWriter(new FileWriter(dest+"M.csv", true));
+            PrintWriter arqWriteF = new PrintWriter(new FileWriter(dest+"F.csv", true));
 
-            for (int i = 0; i < this.dataset.size(); i++) {
+            if(withHeader){
+                arqWriteM.append(String.join(";", this.dataset.get(0)) + ";");
+                arqWriteF.append(String.join(";", this.dataset.get(0)) + ";");
+                for (int attr = 1; attr <= 1000; attr++) {
+                    if (attr < 1000) {
+                        arqWriteM.append("attr" + attr + ";");
+                        arqWriteF.append("attr" + attr + ";");
+                    }
+                    else {
+                        arqWriteM.append("attr" + attr + "\n");
+                        arqWriteF.append("attr" + attr + "\n");
+                    }
+                }
+            }
+            for (int i = 1; i < this.dataset.size(); i++) {
                 System.out.println(i);
-                if(i == 0 && withHeader){
-                    arqWrite.append(String.join(";", this.dataset.get(i)) + ";");
-                    for (int attr = 1; attr <= 1000; attr++) {
-                        if (attr < 1000)
-                            arqWrite.append("attr" + attr + ";");
-                        else
-                            arqWrite.append("attr" + attr + "\n");
-                    }
-                }
-                else{
-                    arqWrite.append(String.join(";", this.dataset.get(i)) + ";");
-                    imgFeatures = features.extract(src + this.dataset.get(i)[0] + ".png");
+                if(this.dataset.get(i)[2].equals("True"))
+                    arqWriteM.append(String.join(";", this.dataset.get(i)) + ";");
+                else
+                    arqWriteF.append(String.join(";", this.dataset.get(i)) + ";");
 
-                    for (int j = 0; j < imgFeatures.size(); j++) {
-                        if (j < imgFeatures.size() - 1)
-                            arqWrite.append(imgFeatures.get(j) + ";");
-                        else
-                            arqWrite.append(imgFeatures.get(j) + "\n");
-                    }
-                }
+                imgFeatures = features.extract(src + this.dataset.get(i)[0] + ".png");
 
-            }
-            arqWrite.close();
-
-            /*if(withHeader){
-                arqWrite.append("id;");
-                for (int i = 1; i <= 1000; i++) {
-                    if (i < 1000)
-                        arqWrite.append("attr" + i + ";");
-                    else
-                        arqWrite.append("attr" + i + "\n");
-                }
-            }
-            else {
-                imgFeatures = features.extract(src);
-
-                arqWrite.append(src.substring(90, 95) + ";");
                 for (int j = 0; j < imgFeatures.size(); j++) {
-                    if (j < imgFeatures.size() - 1)
-                        arqWrite.append(imgFeatures.get(j) + ";");
-                    else
-                        arqWrite.append(imgFeatures.get(j) + "\n");
+                    if (j < imgFeatures.size() - 1) {
+                        if(this.dataset.get(i)[2].equals("True"))
+                            arqWriteM.append(imgFeatures.get(j) + ";");
+                        else
+                            arqWriteF.append(imgFeatures.get(j) + ";");
+                    }
+                    else {
+                        if(this.dataset.get(i)[2].equals("True"))
+                            arqWriteM.append(imgFeatures.get(j) + "\n");
+                        else
+                            arqWriteF.append(imgFeatures.get(j) + "\n");
+                    }
                 }
 
-            }*/
+            }
+            arqWriteM.close();
+            arqWriteF.close();
 
         }
         catch (IOException e){

@@ -17,34 +17,36 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         var arquivo = new CSV_Reader();
-        arquivo.readData("/home/kaio/IdeaProjects/boneage_dataset/boneage-training-dataset.csv", ",", 0);
-	    String trainingPath = "/home/kaio/IdeaProjects/boneage_dataset/boneage-training-dataset/boneage-training-dataset/";
+        String trainingPath = "/home/kaio/IdeaProjects/boneage_dataset/boneage-training-dataset";
+        String testPath = "/home/kaio/IdeaProjects/boneage_dataset/boneage-test-dataset";
+        arquivo.readData(trainingPath+".csv", ",", 0);
 
-        arquivo.featuresToCSV(trainingPath,"trainingFeature.csv", true);
+        //arquivo.featuresToCSV(trainingPath+"/boneage-training-dataset/","trainingFeature", true);
 
-        CSV_Reader arquivo1 = new CSV_Reader();
+        CSV_Reader arquivoF = new CSV_Reader();
+        CSV_Reader arquivoM = new CSV_Reader();
 
-        arquivo.readData("trainingFeature.csv", ";", 1);
-        arquivo1.readData("/home/kaio/IdeaProjects/boneage_dataset/boneage-test-dataset.csv", ",", 1);
-        String testPath = "/home/kaio/IdeaProjects/boneage_dataset/boneage-test-dataset/boneage-test-dataset/";
+        arquivoF.readData("trainingFeatureF.csv", ";", 1);
+        arquivoM.readData("trainingFeatureM.csv", ";", 1);
+        arquivo.readData(testPath+".csv", ",", 0);
 
-        FileWriter arq = new FileWriter("output.csv");
-        PrintWriter arqWrite = new PrintWriter(arq);
+        PrintWriter arqWrite = new PrintWriter(new FileWriter("output.csv") );
         FeatureExtraction features = new FeatureExtraction();
         List<Float> imgFeatures;
         KNN knn = new KNN();
 
-        for (int i = 0; i < arquivo1.dataset.size(); i++) {
+        arqWrite.append(String.join(";", arquivo.dataset.get(0)) + ";PredictedAge\n");
+        for (int i = 1; i < arquivo.dataset.size(); i++) {
             System.out.println(i);
-            if (i == 0) {
-                arqWrite.append(String.join(";", arquivo1.dataset.get(i)) + "PredictedAge\n");
-            } else {
-                imgFeatures = features.extract(testPath + arquivo1.dataset.get(i)[0] + ".png");
-                knn.k_nn_exec(arquivo.dataset, imgFeatures, 6, 0);
+            imgFeatures = features.extract(testPath+"/boneage-test-dataset/"+ arquivo.dataset.get(i)[0] + ".png");
 
-                arqWrite.append(String.join(";", arquivo1.dataset.get(i)) + ";");
-                arqWrite.append(knn.predict() + "\n");
-            }
+            if(arquivo.dataset.get(i)[1].equals("M"))
+                knn.k_nn_exec(arquivoM.dataset, imgFeatures, 6, 0);
+            else
+                knn.k_nn_exec(arquivoF.dataset, imgFeatures, 6, 0);
+
+            arqWrite.append(String.join(";", arquivo.dataset.get(i)) + ";");
+            arqWrite.append(knn.predict() + "\n");
         }
         arqWrite.close();
 
