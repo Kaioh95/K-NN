@@ -1,6 +1,5 @@
 package com.app;
 
-//import org.opencv.core.Core;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.HOGDescriptor;
@@ -11,10 +10,6 @@ import org.opencv.core.Size;
 import java.util.List;
 
 public class FeatureExtraction {
-
-    /*static{
-        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-    }*/
 
     public List<Float> extract(String rawImg){
         HOGDescriptor hog = new HOGDescriptor();

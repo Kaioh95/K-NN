@@ -3,19 +3,19 @@ package com.app;
 import java.util.*;
 
 public class KNN {
-    public SortedMap<Double, String[]> neighbours;
+    private SortedMap<Double, List<String>> neighbours;
 
     public KNN() {
         this.neighbours = new TreeMap<>();
     }
 
-    public void k_nn_exec(List<String[]> allImages, List<Float> imageX, int k, int option){
+    public void knnExec(List<List<String>> allImages, List<Float> imageX, int k, int option){
         Distance similarityMeasure;
         similarityMeasure = new EuclideanDistance();
 
         Double distanceMeasure;
-        for(String[] img: allImages){
-            String[] subFromImg = Arrays.copyOfRange(img, 3, img.length);
+        for(List<String> img: allImages){
+            List<String> subFromImg = img.subList(2, img.size());
             distanceMeasure = similarityMeasure.distance(subFromImg, imageX);
             if (neighbours.size() < k) {
                 neighbours.put(distanceMeasure, img);
@@ -31,12 +31,12 @@ public class KNN {
 
     public double predict(){
         double predictAge = 0;
-        String[] nFeatures;
+        List<String> nFeatures;
         int k = this.neighbours.size();
 
         while(!this.neighbours.isEmpty()){
             nFeatures = this.neighbours.get(neighbours.lastKey());
-            predictAge += Double.parseDouble(nFeatures[1])/12;
+            predictAge += Double.parseDouble(nFeatures.get(0))/12;
             this.neighbours.remove(neighbours.lastKey());
         }
 
