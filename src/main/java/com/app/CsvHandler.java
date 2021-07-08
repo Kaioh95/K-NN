@@ -5,7 +5,13 @@ import lombok.Setter;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.List;
+import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
 
 @Getter
 @Setter
@@ -31,7 +37,7 @@ public class CsvHandler {
                     myReader.nextLine();
                     continue;
                 }
-                List<String> line = new ArrayList<String>(
+                List<String> line = new ArrayList<>(
                         Arrays.asList(myReader.nextLine().split(delimiter)));
                 this.dataset.put(line.get(0), line.subList(1, line.size()));
                 System.out.println(this.dataset.get(line.get(0)));
@@ -43,23 +49,4 @@ public class CsvHandler {
         }
     }
 
-    public void allImagesFeatures() {
-        FeatureExtraction features = new FeatureExtraction();
-        List<Float> imgFeatures;
-
-        File file = new File(this.imgsPath);
-        for(File img: Objects.requireNonNull(file.listFiles())){
-            String imgKey = Arrays.asList(img.getName().split("\\.")).get(0);
-            System.out.println(imgKey);
-
-            imgFeatures = features.extract(this.imgsPath + imgKey + ".png");
-
-            for (Float imgFeature : imgFeatures) {
-                this.dataset.get(imgKey).add(String.valueOf(imgFeature));
-            }
-        }
-
-    }
-
-
-};
+}

@@ -1,15 +1,18 @@
 package com.app;
 
-import java.util.*;
+
+import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 public class KNN {
-    private SortedMap<Double, List<String>> neighbours;
+    private final SortedMap<Double, List<String>> neighbours;
 
     public KNN() {
         this.neighbours = new TreeMap<>();
     }
 
-    public void knnExec(List<List<String>> allImages, List<Float> imageX, int k, int option){
+    public void knnExec(List<List<String>> allImages, List<Float> imageX, int k){
         Distance similarityMeasure;
         similarityMeasure = new EuclideanDistance();
 
