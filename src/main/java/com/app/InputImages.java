@@ -21,7 +21,7 @@ public class InputImages {
         testHandler.readCsv(",", 1);
 
         try {
-            PrintWriter arqWrite = new PrintWriter(new FileWriter("output.csv") );
+            PrintWriter arqWrite = new PrintWriter(new FileWriter("output.csv", false) );
             FeatureExtraction features = new FeatureExtraction();
             List<Float> imgFeatures;
             KNN knn = new KNN();
