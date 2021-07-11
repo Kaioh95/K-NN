@@ -9,13 +9,10 @@ import java.util.List;
 import java.util.Objects;
 
 public class InputImages {
-    private final List<List<String>> trainingList;
 
-    public InputImages(List<List<String>> trainingList){
-        this.trainingList = trainingList;
-    }
+    public InputImages(){ }
 
-    public void predictInputImages() {
+    public void predictInputImages(List<ImageData> trainingList) {
         CsvHandler testHandler = new CsvHandler("/home/kaio/IdeaProjects/boneage_dataset/boneage-test-dataset.csv",
                 "/home/kaio/IdeaProjects/boneage_dataset/boneage-test-dataset/boneage-test-dataset/");
         testHandler.readCsv(",", 1);
@@ -23,7 +20,7 @@ public class InputImages {
         try {
             PrintWriter arqWrite = new PrintWriter(new FileWriter("output.csv", false) );
             FeatureExtraction features = new FeatureExtraction();
-            List<Float> imgFeatures;
+            Byte[] imgFeatures;
             KNN knn = new KNN();
 
             arqWrite.append("Case ID;Sex;PredictedAge\n");
@@ -31,12 +28,13 @@ public class InputImages {
             for (File img : Objects.requireNonNull(file.listFiles())) {
                 String imgKey = Arrays.asList(img.getName().split("\\.")).get(0);
                 System.out.println(imgKey);
+
                 imgFeatures = features.extract(testHandler.getImgsPath() + img.getName());
-
-                knn.knnExec(this.trainingList, imgFeatures, 6);
-
-                arqWrite.append(imgKey + ";" + testHandler.getDataset().get(imgKey).get(0) + ";");
+                knn.knnExec(trainingList, imgFeatures, 6);
+                arqWrite.append(testHandler.getDataset()
+                        .get(Integer.parseInt(imgKey)).toCsvWrite() + ";");
                 arqWrite.append(knn.predict() + "\n");
+
             }
             arqWrite.close();
         }catch (IOException e){

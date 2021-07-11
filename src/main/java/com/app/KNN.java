@@ -12,20 +12,19 @@ public class KNN {
         this.neighbours = new TreeMap<>();
     }
 
-    public void knnExec(List<List<String>> allImages, List<Float> imageX, int k){
+    public void knnExec(List<ImageData> allImages, Byte[] imageX, int k){
         Distance similarityMeasure;
         similarityMeasure = new EuclideanDistance();
 
         Double distanceMeasure;
-        for(List<String> img: allImages){
-            List<String> subFromImg = img.subList(2, img.size());
-            distanceMeasure = similarityMeasure.distance(subFromImg, imageX);
+        for(ImageData img: allImages){
+            distanceMeasure = similarityMeasure.distance(img.getFeatures(), imageX);
             if (neighbours.size() < k) {
-                neighbours.put(distanceMeasure, img);
+                neighbours.put(distanceMeasure, img.getInfo());
             } else {
                 if (neighbours.lastKey() > distanceMeasure) {
                     neighbours.remove(neighbours.lastKey());
-                    neighbours.put(distanceMeasure, img);
+                    neighbours.put(distanceMeasure, img.getInfo());
                 }
             }
         }
@@ -39,7 +38,7 @@ public class KNN {
 
         while(!this.neighbours.isEmpty()){
             nFeatures = this.neighbours.get(neighbours.lastKey());
-            predictAge += Double.parseDouble(nFeatures.get(0))/12;
+            predictAge += Double.parseDouble(nFeatures.get(1))/12;
             this.neighbours.remove(neighbours.lastKey());
         }
 

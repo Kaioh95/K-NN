@@ -18,7 +18,7 @@ import java.util.Scanner;
 public class CsvHandler {
     private String csvPath;
     private String imgsPath;
-    private Map<String, List<String>> dataset = new HashMap<>();
+    private Map<Integer, ImageData> dataset = new HashMap<>();
 
     public CsvHandler(String csvPath, String imgsPath){
         this.csvPath = csvPath;
@@ -39,8 +39,8 @@ public class CsvHandler {
                 }
                 List<String> line = new ArrayList<>(
                         Arrays.asList(myReader.nextLine().split(delimiter)));
-                this.dataset.put(line.get(0), line.subList(1, line.size()));
-                System.out.println(this.dataset.get(line.get(0)));
+                this.dataset.put(Integer.parseInt(line.get(0)), new ImageData(line));
+                System.out.println(this.dataset.get( Integer.parseInt(line.get(0)) ));
             }
             myReader.close();
         }

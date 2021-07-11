@@ -26,17 +26,15 @@ public class Trainer {
         for(File img: Objects.requireNonNull(file.listFiles())){
             String imgKey = Arrays.asList(img.getName().split("\\.")).get(0);
             System.out.println(imgKey);
+            FeatureExtraction features = new FeatureExtraction();
+            final Byte[][] imgFeatures = new Byte[1][];
 
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    FeatureExtraction features = new FeatureExtraction();
-                    List<Float> imgFeatures;
-                    imgFeatures = features.extract(csv.getImgsPath() + imgKey + ".png");
-
-                    for (Float imgFeature : imgFeatures) {
-                        csv.getDataset().get(imgKey).add(String.valueOf(imgFeature));
-                    }
+                    imgFeatures[0] = features.extract(csv.getImgsPath() + imgKey + ".png");
+                    csv.getDataset().get(Integer.parseInt(imgKey)).setFeatures(imgFeatures[0]);
+                    imgFeatures[0] = null;
                     //System.out.println(Thread.getAllStackTraces().keySet());
                 }
             });

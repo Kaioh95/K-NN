@@ -18,11 +18,10 @@ public class Main {
         Trainer trainer = new Trainer(trainerHandler);
         trainer.allImagesFeatures();
 
-        List<List<String>> trainingList = new ArrayList<>(trainerHandler.getDataset().values());
+        List<ImageData> trainingList = new ArrayList<>(trainerHandler.getDataset().values());
 
-        InputImages inImgs = new InputImages(trainingList);
-        inImgs.predictInputImages();
-
+        InputImages inImgs = new InputImages();
+        inImgs.predictInputImages(trainingList);
     }
 
 }
