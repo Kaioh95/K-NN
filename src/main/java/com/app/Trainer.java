@@ -17,17 +17,16 @@ public class Trainer {
     }
 
     public void allImagesFeatures() throws InterruptedException {
+        FeatureExtraction features = new FeatureExtraction();
+        Byte[] imgFeatures;
 
         File file = new File(csv.getImgsPath());
         for(File img: Objects.requireNonNull(file.listFiles())){
             String imgKey = Arrays.asList(img.getName().split("\\.")).get(0);
             System.out.println(imgKey);
-            FeatureExtraction features = new FeatureExtraction();
-            Byte[] imgFeatures;
 
             imgFeatures = features.extract(csv.getImgsPath() + imgKey + ".png");
             csv.getDataset().get(Integer.parseInt(imgKey)).setFeatures(imgFeatures);
-            imgFeatures[0] = null;
             //System.out.println(Thread.getAllStackTraces().keySet());
         }
     }
