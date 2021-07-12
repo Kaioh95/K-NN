@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 public class InputImages {
 
@@ -22,11 +23,12 @@ public class InputImages {
             FeatureExtraction features = new FeatureExtraction();
             Byte[] imgFeatures;
             KNN knn = new KNN();
+            Pattern delimiter = Pattern.compile("\\.");
 
             arqWrite.append("Case ID;Sex;PredictedAge\n");
             File file = new File(testHandler.getImgsPath());
             for (File img : Objects.requireNonNull(file.listFiles())) {
-                String imgKey = Arrays.asList(img.getName().split("\\.")).get(0);
+                String imgKey = Arrays.asList(delimiter.split(img.getName(), 2)).get(0);
                 System.out.println(imgKey);
 
                 imgFeatures = features.extract(testHandler.getImgsPath() + img.getName());
