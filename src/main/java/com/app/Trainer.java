@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 @Setter
 @Getter
@@ -19,29 +20,28 @@ public class Trainer {
     }
 
     public void allImagesFeatures() throws InterruptedException {
-
+        FeatureExtraction features = new FeatureExtraction();
+        Pattern pattern = Pattern.compile("\\.");
         List<Thread> threads = new ArrayList<>();
 
         File file = new File(csv.getImgsPath());
         for(File img: Objects.requireNonNull(file.listFiles())){
-            String imgKey = Arrays.asList(img.getName().split("\\.")).get(0);
+            String imgKey = Arrays.asList(pattern.split(img.getName(), 2)).get(0);
             System.out.println(imgKey);
-            FeatureExtraction features = new FeatureExtraction();
-            final Byte[][] imgFeatures = new Byte[1][];
 
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    imgFeatures[0] = features.extract(csv.getImgsPath() + imgKey + ".png");
-                    csv.getDataset().get(Integer.parseInt(imgKey)).setFeatures(imgFeatures[0]);
-                    imgFeatures[0] = null;
+                    csv.getDataset().get(Integer.parseInt(imgKey))
+                            .setFeatures(features
+                                    .extract(csv.getImgsPath() + imgKey + ".png"));
                     //System.out.println(Thread.getAllStackTraces().keySet());
                 }
             });
             thread.start();
             threads.add(thread);
 
-            if (threads.size() == 200){
+            if (threads.size() == 50){
                 for( Thread innerThread: threads)
                     innerThread.join();
                 threads.clear();

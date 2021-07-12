@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 public class InputImages {
 
@@ -16,6 +17,7 @@ public class InputImages {
         CsvHandler testHandler = new CsvHandler("/home/kaio/IdeaProjects/boneage_dataset/boneage-test-dataset.csv",
                 "/home/kaio/IdeaProjects/boneage_dataset/boneage-test-dataset/boneage-test-dataset/");
         testHandler.readCsv(",", 1);
+        Pattern pattern = Pattern.compile("\\.");
 
         try {
             PrintWriter arqWrite = new PrintWriter(new FileWriter("output.csv", false) );
@@ -26,7 +28,7 @@ public class InputImages {
             arqWrite.append("Case ID;Sex;PredictedAge\n");
             File file = new File(testHandler.getImgsPath());
             for (File img : Objects.requireNonNull(file.listFiles())) {
-                String imgKey = Arrays.asList(img.getName().split("\\.")).get(0);
+                String imgKey = Arrays.asList(pattern.split(img.getName(), 2)).get(0);
                 System.out.println(imgKey);
 
                 imgFeatures = features.extract(testHandler.getImgsPath() + img.getName());

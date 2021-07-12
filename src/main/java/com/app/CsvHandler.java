@@ -18,7 +18,7 @@ import java.util.Scanner;
 public class CsvHandler {
     private String csvPath;
     private String imgsPath;
-    private Map<Integer, ImageData> dataset = new HashMap<>();
+    private final Map<Integer, ImageData> dataset = new HashMap<>();
 
     public CsvHandler(String csvPath, String imgsPath){
         this.csvPath = csvPath;
