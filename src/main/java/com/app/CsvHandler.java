@@ -40,7 +40,7 @@ public class CsvHandler {
                 List<String> line = new ArrayList<>(
                         Arrays.asList(myReader.nextLine().split(delimiter)));
                 this.dataset.put(Integer.parseInt(line.get(0)), new ImageData(line));
-                System.out.println(this.dataset.get( Integer.parseInt(line.get(0)) ));
+                //System.out.println(this.dataset.get( Integer.parseInt(line.get(0)) ));
             }
             myReader.close();
         }
