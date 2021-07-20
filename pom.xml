@@ -37,11 +37,12 @@
             <version>1.19</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.openpnp/opencv -->
         <dependency>
-            <groupId>org.openpnp</groupId>
-            <artifactId>opencv</artifactId>
-            <version>4.3.0-2</version>
+            <groupId>org.opencv</groupId>
+            <artifactId>opencv.jar</artifactId>
+            <version>4.0</version>
+            <scope>system</scope>
+            <systemPath>/usr/local/share/java/opencv4/opencv-430.jar</systemPath>
         </dependency>
 
     </dependencies>

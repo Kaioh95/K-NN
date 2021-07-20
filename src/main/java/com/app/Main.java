@@ -7,8 +7,7 @@ import java.util.List;
 
 public class Main {
     static{
-        nu.pattern.OpenCV.loadLocally();
-        //System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
     }
 
     public static void main(String[] args) throws InterruptedException {

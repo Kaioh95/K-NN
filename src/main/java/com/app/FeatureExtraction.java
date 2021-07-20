@@ -1,5 +1,6 @@
 package com.app;
 
+import org.opencv.core.Core;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.core.Mat;
@@ -8,6 +9,9 @@ import org.opencv.core.Size;
 import java.util.Arrays;
 
 public class FeatureExtraction {
+    static{
+        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+    }
 
     private static final Size SIZE = new Size(64, 128);
 
