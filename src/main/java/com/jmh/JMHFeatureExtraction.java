@@ -21,7 +21,7 @@ public class JMHFeatureExtraction {
     }
 
     @Benchmark
-    public void featureBrench(FtState state) {
+    public void featureBench(FtState state) {
         state.ft.extract("/home/kaio/IdeaProjects/boneage_dataset/boneage-training-dataset/boneage-training-dataset/5471.png");
     }
 
@@ -47,7 +47,7 @@ public class JMHFeatureExtraction {
     public static void main(String[] args) throws RunnerException {
         Options opt = new OptionsBuilder()
                 .include(JMHFeatureExtraction.class.getSimpleName())
-                .threads(4)
+                .threads(1)
                 .forks(1)
                 .build();
 

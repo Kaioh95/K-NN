@@ -32,14 +32,14 @@ public class JMHCsvHandler {
     }
 
     @Benchmark
-    public void csvReadBrench(CsvState state){
+    public void csvReadBench(CsvState state){
         state.csvHandler.readCsv(",", 1);
     }
 
     public static void main(String[] args) throws RunnerException {
         Options opt = new OptionsBuilder()
                 .include(JMHCsvHandler.class.getSimpleName())
-                .threads(4)
+                .threads(1)
                 .forks(1)
                 .build();
 
