@@ -36,7 +36,6 @@ public class InputImages {
                 arqWrite.append(testHandler.getDataset()
                         .get(Integer.parseInt(imgKey)).toCsvWrite() + ";");
                 arqWrite.append(knn.predict() + "\n");
-
             }
             arqWrite.close();
         }catch (IOException e){

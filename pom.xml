@@ -6,7 +6,7 @@
 
     <groupId>groupId</groupId>
     <artifactId>K-NN</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -45,6 +45,17 @@
             <systemPath>/usr/local/share/java/opencv4/opencv-430.jar</systemPath>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.jmeter</groupId>
+            <artifactId>ApacheJMeter_core</artifactId>
+            <version>5.4.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.jmeter</groupId>
+            <artifactId>ApacheJMeter_java</artifactId>
+            <version>5.4.1</version>
+        </dependency>
+
     </dependencies>
-    
+
 </project>
